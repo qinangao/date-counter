@@ -13,17 +13,33 @@ function Counter() {
   };
   today.setDate(today.getDate() + count);
   const updatedFormattedDate = today.toLocaleDateString("en-US", options);
+  function handleClick() {
+    setCount(0);
+    setStep(1);
+  }
 
   return (
     <div className="container">
       <div className="step">
-        <button onClick={() => setStep((s) => s - 1)}>-</button>
-        <div>Step: {step}</div>
-        <button onClick={() => setStep((s) => s + 1)}>+</button>
+        <input
+          className="slicer"
+          type="range"
+          min="0"
+          max="10"
+          placeholder="0"
+          value={step}
+          id="myRange"
+          onChange={(e) => setStep(Number(e.target.value))}
+        />
+        <span>{step}</span>
       </div>
       <div className="count">
         <button onClick={() => setCount((c) => c - step)}>-</button>
-        <div>Count: {count}</div>
+        <input
+          type="text"
+          value={count}
+          onChange={(e) => setCount(Number(e.target.value))}
+        />
         <button onClick={() => setCount((c) => c + step)}>+</button>
       </div>
       <p>
@@ -36,6 +52,12 @@ function Counter() {
         </span>
         <span>{updatedFormattedDate}</span>
       </p>
+      <button
+        onClick={handleClick}
+        className={count !== 0 || step !== 1 ? "" : "active"}
+      >
+        Reset
+      </button>
     </div>
   );
 }
